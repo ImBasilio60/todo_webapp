@@ -1,0 +1,11 @@
+* {
+    font-family: 'Poppins';
+    outline: none;
+    text-decoration: none;
+    box-sizing: border-box;
+    list-style: none;
+}
+
+button {
+    cursor: pointer;
+}
