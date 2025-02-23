@@ -3,49 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" 
           integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" 
           crossorigin="anonymous" referrerpolicy="no-referrer" />
     
     <title>Todo App</title>
 </head>
-<body class="bg-gray-100 min-h-screen flex flex-col items-center">
+<body class=" min-h-screen flex flex-col items-center">
 
     <!-- Header -->
     <header class="w-full flex justify-center py-6">
-        <h1 class="text-4xl text-orange-500 font-bold">Todo App</h1>
+        <h1 class="text-4xl text-orange-600 font-extrabold drop-shadow-md">Todo App</h1>
     </header>
 
     <!-- Main  -->
     <main class="w-full max-w-lg p-6 flex flex-col items-center">
         <section class="formulaire w-full">
             <form class="w-full">
-                <div class="border border-orange-500 flex items-center justify-between px-4 py-3 rounded-lg bg-white shadow-md">
+                <div class="border border-orange-500 flex items-center justify-between px-4 py-3 rounded-lg bg-white shadow-lg">
                     <input type="text" placeholder="Ajouter une tâche..." id="input-todo" 
                            class="flex-1 outline-none px-2 bg-transparent text-gray-700 text-lg" />
-                    <button class="text-orange-500 hover:text-orange-700 text-2xl">
+                    <button class="text-orange-500 hover:text-orange-700 text-3xl transition-transform transform hover:scale-110">
                         <i class="fas fa-plus-circle"></i>
                     </button>
                 </div>
             </form>
+            <div class="mt-4 text-gray-700 text-lg">
+                <h3>Total tasks: <span class="font-bold">1</span></h3>
+            </div>
         </section>
+
+        <!-- Barre de progression -->
+        <div class="w-full max-w-md mt-4 bg-gray-200 rounded-full h-2.5">
+            <div class="progress-bar bg-orange-500 h-2.5 rounded-full transition-all duration-300" style="width: 5%;">
+
+            </div>
+        </div>
+        
+
         <section class="listes w-full mt-6">
             <div class="max-w-md mx-auto">
                 <ul class="space-y-4">
-                    <li class="flex items-center justify-between bg-white p-4 rounded-lg shadow-md">
+                    <li class="flex items-center justify-between bg-white p-4 rounded-lg shadow-md transition-all hover:shadow-lg">
                         <!-- Partie gauche : Checkbox + Texte -->
                         <div class="flex items-center gap-3">
                             <input type="checkbox" id="task1" class="peer">
-                            <label for="task1" class="text-lg text-gray-800 cursor-pointer peer-checked:line-through peer-checked:text-gray-500">
+                            <label for="task1" class="text-lg text-gray-800 cursor-pointer peer-checked:line-through peer-checked:text-gray-500 transition-all">
                                 Task One
                             </label>
                         </div>                     
                         <div class="flex items-center gap-3">
-                            <button class="text-blue-500 hover:text-blue-700 text-xl">
+                            <button class="text-blue-500 hover:text-blue-700 text-xl transition-transform transform hover:scale-110">
                                 <i class="fa fa-pencil"></i>
                             </button>
-                            <button class="text-red-500 hover:text-red-700 text-xl">
+                            <button class="text-red-500 hover:text-red-700 text-xl transition-transform transform hover:scale-110">
                                 <i class="fa fa-trash"></i>
                             </button>
                         </div>
@@ -55,9 +71,11 @@
         </section>
 
     </main>
-    <footer class="w-full text-center py-4 text-gray-500 mt-auto">
+
+    <footer class="w-full text-center py-4 text-gray-700 mt-auto">
         &copy; 2025 Todo App. Tous droits réservés.
     </footer>
 
+    <script src="app.js"></script>
 </body>
 </html>
