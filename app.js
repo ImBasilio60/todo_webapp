@@ -24,6 +24,13 @@ const ItemCtrl = (function() {
             const newItem = new Item(ID, task);
             data.items.push(newItem);
         },
+        deleteItem: function() {
+            let ids = data.items.map(item => {
+                return item.id;
+            });
+            const indexOfId = ids.indexOf(data.currentItem.id);
+            data.items.splice(indexOfId, 1);
+        },
         findItemById: function(id) {
             let itemFound = "";
             for (const item of data.items) {
@@ -60,10 +67,13 @@ const ItemCtrl = (function() {
 const UICtrl = (function() {
     const UISelector = {
         addBtn: "#add-btn",
+        annulerBtn: '#cancelDelete',
         editBtn: '#edit-btn',
         editConteneur: '#edit-none',
         input: "#input-todo",
         nombreTache: "#tasks-nombre",
+        popUp: '#confirmModal',
+        supprimerBtn: "#confirmDelete",
         ul: "#items-collection"
     };
 
@@ -117,6 +127,9 @@ const UICtrl = (function() {
             });
             document.querySelector(UISelector.nombreTache).innerHTML = nombreTask;
             document.querySelector(UISelector.ul).innerHTML = html;
+        }, 
+        showPopUp: function() {
+            document.querySelector(UISelector.popUp).classList.toggle('hidden');
         }
     }
 })();
@@ -131,6 +144,11 @@ const App = (function(ItemCtrl, UICtrl) {
         //Update
         document.querySelector(UISelector.ul).addEventListener('click', addItemToForm);
         document.querySelector(UISelector.editBtn).addEventListener('click', updateItem);
+        //Delete
+        document.querySelector(UISelector.ul).addEventListener('click', showPopUp);
+        document.querySelector(UISelector.supprimerBtn).addEventListener('click', deleteItem);
+        document.querySelector(UISelector.annulerBtn).addEventListener('click', cancelAction);
+        
     }
 
     const addItemSubmited = function(e) {
@@ -173,6 +191,28 @@ const App = (function(ItemCtrl, UICtrl) {
             readAllItems();
         }
         e.preventDefault();
+    };
+
+    const showPopUp = function(e) {
+        if (e.target.classList.contains('delete-action')) {
+            const listId = e.target.parentNode.parentNode.parentNode.id;
+            const listIdArr = listId.split('-');
+            const id = parseInt(listIdArr[1]);
+            const editItem = ItemCtrl.findItemById(id);
+            ItemCtrl.setCurrentItem(editItem);
+            UICtrl.showPopUp();
+        }
+        e.preventDefault();
+    };
+
+    const deleteItem = function() {
+        ItemCtrl.deleteItem();
+        readAllItems();
+        UICtrl.showPopUp();
+    };
+
+    const cancelAction = function() {
+        UICtrl.showPopUp();
     };
 
 
