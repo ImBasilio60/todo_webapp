@@ -53,6 +53,9 @@ const ItemCtrl = (function() {
         setCurrentItem: function(item) {
             data.currentItem = item;
         },
+        setItem: function(items) {
+            data.items = items;
+        },
         updateItem: function(newItem){
             for (const item of data.items) {
                 if (data.currentItem.id == item.id) {
@@ -60,6 +63,19 @@ const ItemCtrl = (function() {
                     break;
                 }
             }
+        }
+    }
+})();
+
+const StoreItems = (function() {
+    return {
+        get: function() {
+            let items = [];
+            items = JSON.parse(localStorage.getItem('todo-app'));
+            return items;
+        },
+        store: function(items) {
+            localStorage.setItem('todo-app', JSON.stringify(items));
         }
     }
 })();
@@ -156,13 +172,15 @@ const App = (function(ItemCtrl, UICtrl) {
         if (inputValue !== "") {
             ItemCtrl.addItem(inputValue);
             UICtrl.clearInput();
+            StoreItems.store(ItemCtrl.getItems());
             readAllItems();
         }
         e.preventDefault();
     };
 
     const readAllItems = function() {
-        
+        const lastItems = StoreItems.get();
+        ItemCtrl.setItem(lastItems);
         const items = ItemCtrl.getItems();
         const nombreTache = ItemCtrl.getTotalTask();
         UICtrl.populateItems(items, nombreTache);
@@ -186,6 +204,7 @@ const App = (function(ItemCtrl, UICtrl) {
         const inputValue = UICtrl.getInputValue().task;
         if (inputValue !== "") {
             ItemCtrl.updateItem(inputValue);
+            StoreItems.store(ItemCtrl.getItems());
             UICtrl.clearInput();
             UICtrl.editStatement();
             readAllItems();
@@ -207,6 +226,7 @@ const App = (function(ItemCtrl, UICtrl) {
 
     const deleteItem = function() {
         ItemCtrl.deleteItem();
+        StoreItems.store(ItemCtrl.getItems());
         readAllItems();
         UICtrl.showPopUp();
     };
