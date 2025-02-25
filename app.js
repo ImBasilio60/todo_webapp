@@ -166,7 +166,6 @@ const App = (function(ItemCtrl, UICtrl) {
         document.querySelector(UISelector.ul).addEventListener('click', showPopUp);
         document.querySelector(UISelector.supprimerBtn).addEventListener('click', deleteItem);
         document.querySelector(UISelector.annulerBtn).addEventListener('click', cancelAction);
-        
     }
 
     const addItemSubmited = function(e) {
@@ -190,8 +189,13 @@ const App = (function(ItemCtrl, UICtrl) {
     };
 
     const addItemToForm = function(e) {
+        // Vérifie si l'élément cliqué est un checkbox
+        if (e.target.type === 'checkbox') {
+            return; // Ne fait rien et laisse le comportement par défaut du checkbox
+        }
+    
         if (e.target.classList.contains('edit-action')) {
-            const listId = e.target.parentNode.parentNode.parentNode.id;
+            const listId = e.target.closest('li').id;
             const listIdArr = listId.split('-');
             const id = parseInt(listIdArr[1]);
             const editItem = ItemCtrl.findItemById(id);
@@ -199,6 +203,7 @@ const App = (function(ItemCtrl, UICtrl) {
             UICtrl.editInput(editItem);         
             UICtrl.editStatement();
         }
+    
         e.preventDefault();
     };
 
@@ -215,6 +220,9 @@ const App = (function(ItemCtrl, UICtrl) {
     };
 
     const showPopUp = function(e) {
+        if (e.target.type === 'checkbox') {
+            return; // Ne fait rien et laisse le comportement par défaut du checkbox
+        }
         if (e.target.classList.contains('delete-action')) {
             const listId = e.target.parentNode.parentNode.parentNode.id;
             const listIdArr = listId.split('-');
