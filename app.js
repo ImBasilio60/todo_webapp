@@ -71,7 +71,9 @@ const StoreItems = (function() {
     return {
         get: function() {
             let items = [];
-            items = JSON.parse(localStorage.getItem('todo-app'));
+            if (localStorage.getItem('todo-app') != null) {
+                items = JSON.parse(localStorage.getItem('todo-app'));
+            } 
             return items;
         },
         store: function(items) {
