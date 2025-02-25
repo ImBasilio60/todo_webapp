@@ -46,6 +46,18 @@ const ItemCtrl = (function() {
             }
             return itemFound;
         },
+        getItemsInformations: function() {
+            return {
+                length: data.items.length,
+                completedTask: function() {
+                    let resultat = 0;
+                    data.items.forEach(item => {
+                        (item.completed) ? resultat++ : resultat;
+                    });
+                    return resultat;
+                }
+            }
+        },
         getItems: function() {
             return data.items;
         },
@@ -104,6 +116,7 @@ const UICtrl = (function() {
         input: "#input-todo",
         nombreTache: "#tasks-nombre",
         popUp: '#confirmModal',
+        progressBar: '.progress-bar',
         supprimerBtn: "#confirmDelete",
         ul: "#items-collection"
     };
@@ -150,13 +163,9 @@ const UICtrl = (function() {
                         </label>
                     </div>                     
                     <div class="flex items-center gap-3">
-                        <button class="text-blue-500 text-xl transition-transform transform" 
-    ${item.completed ? 'disabled' : 'hover:text-blue-700 hover:scale-110'}>
-    <i class="edit-action fa fa-pencil ${item.completed ? 'text-gray-500' : ''}"></i>
-</button>
-
-
-
+                        <button class="text-blue-500 text-xl transition-transform transform" ${item.completed ? 'disabled' : 'hover:text-blue-700 hover:scale-110'}>
+                            <i class="edit-action fa fa-pencil ${item.completed ? 'text-gray-500' : ''}"></i>
+                        </button>
                         <button class="text-red-500 hover:text-red-700 text-xl transition-transform transform hover:scale-110">
                             <i class="delete-action fa fa-trash"></i>
                         </button>
@@ -170,6 +179,10 @@ const UICtrl = (function() {
         }, 
         showPopUp: function() {
             document.querySelector(UISelector.popUp).classList.toggle('hidden');
+        },
+        updateProgressBar: function(data) {
+            let width = data.length > 0 ? (data.completedTask() / data.length) * 100 : 0;
+            document.querySelector(UISelector.progressBar).style.width = `${width}%`;
         }
     }
 })();
@@ -206,6 +219,8 @@ const App = (function(ItemCtrl, UICtrl) {
         ItemCtrl.setItem(lastItems);
         const items = ItemCtrl.getItems();
         const nombreTache = ItemCtrl.getTotalTask();
+        const data = ItemCtrl.getItemsInformations();
+        UICtrl.updateProgressBar(data);
         UICtrl.populateItems(items, nombreTache);
 
     };
