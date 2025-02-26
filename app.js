@@ -1,11 +1,9 @@
 const ItemCtrl = (function() {
-
     const Item = function(id, name, Booleen) {
         this.id = id,
         this.name = name,
         this.completed = Booleen
-    }
-    
+    }    
     const data = {
         items: [],
         currentItem: null,
@@ -17,7 +15,6 @@ const ItemCtrl = (function() {
             return resultat;
         }
     };
-
     return {
         addItem: function(task) {
             let ID = 0;
@@ -120,7 +117,6 @@ const UICtrl = (function() {
         supprimerBtn: "#confirmDelete",
         ul: "#items-collection"
     };
-
     return {
         editInput: function(item) {
             document.querySelector(UISelector.input).value = item.name;
@@ -172,7 +168,6 @@ const UICtrl = (function() {
                     </div>
                 </li>
             `;
-
             });
             document.querySelector(UISelector.nombreTache).innerHTML = nombreTask;
             document.querySelector(UISelector.ul).innerHTML = html;
@@ -240,8 +235,7 @@ const App = (function(ItemCtrl, UICtrl) {
             StoreItems.store(ItemCtrl.getItems());
             readAllItems();
             return;
-        }
-    
+        }    
         if (e.target.classList.contains('edit-action')) {
             const listId = e.target.closest('li').id;
             const listIdArr = listId.split('-');
@@ -250,11 +244,9 @@ const App = (function(ItemCtrl, UICtrl) {
             ItemCtrl.setCurrentItem(editItem);
             UICtrl.editInput(editItem);         
             UICtrl.editStatement();
-        }
-    
+        }    
         e.preventDefault();
     };
-
     const updateItem = function(e) {
         const inputValue = UICtrl.getInputValue().task;
         if (inputValue !== "") {
@@ -266,7 +258,6 @@ const App = (function(ItemCtrl, UICtrl) {
         }
         e.preventDefault();
     };
-
     const showPopUp = function(e) {
         if (e.target.type === 'checkbox') {
             return; // Ne fait rien et laisse le comportement par défaut du checkbox
@@ -281,19 +272,15 @@ const App = (function(ItemCtrl, UICtrl) {
         }
         e.preventDefault();
     };
-
     const deleteItem = function() {
         ItemCtrl.deleteItem();
         StoreItems.store(ItemCtrl.getItems());
         readAllItems();
         UICtrl.showPopUp();
     };
-
     const cancelAction = function() {
         UICtrl.showPopUp();
     };
-
-
     return {
         init: function() {
             console.log('Initializing App...');

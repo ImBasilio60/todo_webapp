@@ -1,7 +1,0 @@
-@import url('css/font.css');
-@import url('css/reset.css');
-
-input:checked + label {
-    text-decoration: line-through;
-    color: gray;
-}
